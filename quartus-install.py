@@ -36,6 +36,33 @@
 Download and install Quartus Prime software on remote servers that don't have a web browser or GUI
 """
 
+quartus_url_181pro = {
+    'setup' : 'http://download.altera.com/akdlm/software/acdsinst/18.1/222/ib_installers/QuartusProSetup-18.1.0.222-linux.run',
+    'modelsim_part1' : 'http://download.altera.com/akdlm/software/acdsinst/18.1/222/ib_installers/ModelSimProSetup-18.1.0.222-linux.run',
+    'modelsim_part2' : 'http://download.altera.com/akdlm/software/acdsinst/18.1/222/ib_installers/modelsim-part2-18.1.0.222-linux.qdz',
+    'a10' : 'http://download.altera.com/akdlm/software/acdsinst/18.1/222/ib_installers/arria10-18.1.0.222.qdz',
+    'c10gx' : 'http://download.altera.com/akdlm/software/acdsinst/18.1/222/ib_installers/cyclone10gx-18.1.0.222.qdz',
+    's10' : 'http://download.altera.com/akdlm/software/acdsinst/18.1/222/ib_installers/stratix10-18.1.0.222.qdz'
+}
+
+quartus_url_181std = {
+    'setup' : 'http://download.altera.com/akdlm/software/acdsinst/18.1std/625/ib_installers/QuartusSetup-18.1.0.625-linux.run',
+	'modelsim' : 'http://download.altera.com/akdlm/software/acdsinst/18.1std/625/ib_installers/ModelSimSetup-18.1.0.625-linux.run',
+	'c4' : 'http://download.altera.com/akdlm/software/acdsinst/18.1std/625/ib_installers/cyclone-18.1.0.625.qdz',
+	'a5gz' : 'http://download.altera.com/akdlm/software/acdsinst/18.1std/625/ib_installers/arriavgz-18.1.0.625.qdz',
+	'a5' : 'http://download.altera.com/akdlm/software/acdsinst/18.1std/625/ib_installers/arriav-18.1.0.625.qdz',
+	'a10_part1' : 'http://download.altera.com/akdlm/software/acdsinst/18.1std/625/ib_installers/arria10_part1-18.1.0.625.qdz',
+	'a10_part2' : 'http://download.altera.com/akdlm/software/acdsinst/18.1std/625/ib_installers/arria10_part2-18.1.0.625.qdz',
+	'a10_part3' : 'http://download.altera.com/akdlm/software/acdsinst/18.1std/625/ib_installers/arria10_part3-18.1.0.625.qdz',
+	'a2' : 'http://download.altera.com/akdlm/software/acdsinst/18.1std/625/ib_installers/arria-18.1.0.625.qdz',
+	'c10lp' : 'http://download.altera.com/akdlm/software/acdsinst/18.1std/625/ib_installers/cyclone10lp-18.1.0.625.qdz',
+	'c5' : 'http://download.altera.com/akdlm/software/acdsinst/18.1std/625/ib_installers/cyclonev-18.1.0.625.qdz',
+	's5' : 'http://download.altera.com/akdlm/software/acdsinst/18.1std/625/ib_installers/stratixv-18.1.0.625.qdz',
+	'm10' : 'http://download.altera.com/akdlm/software/acdsinst/18.1std/625/ib_installers/max10-18.1.0.625.qdz',
+	'm2' : 'http://download.altera.com/akdlm/software/acdsinst/18.1std/625/ib_installers/max-18.1.0.625.qdz'
+}
+
+
 quartus_url_171std = {
     'setup' : 'http://download.altera.com/akdlm/software/acdsinst/17.1std/590/ib_installers/QuartusSetup-17.1.0.590-linux.run',
     'modelsim' : "http://download.altera.com/akdlm/software/acdsinst/17.1std/590/ib_installers/ModelSimSetup-17.1.0.590-linux.run",
@@ -138,7 +165,41 @@ quartus_url_161std = {
 quartus_url_171lite = quartus_url_171std
 quartus_url_171lite['setup'] = "http://download.altera.com/akdlm/software/acdsinst/17.1std/590/ib_installers/QuartusLiteSetup-17.1.0.590-linux.run"
 
+
+quartus_url_160std = {
+	'setup' : 'http://download.altera.com/akdlm/software/acdsinst/16.0/211/ib_installers/QuartusSetup-16.0.0.211-linux.run',
+	'modelsim' : 'http://download.altera.com/akdlm/software/acdsinst/16.0/211/ib_installers/ModelSimSetup-16.0.0.211-linux.run',
+	'a2' : 'http://download.altera.com/akdlm/software/acdsinst/16.0/211/ib_installers/arria-16.0.0.211.qdz',
+	'a10_part1' : 'http://download.altera.com/akdlm/software/acdsinst/16.0/211/ib_installers/arria10_part1-16.0.0.211.qdz',
+	'a10_part2' : 'http://download.altera.com/akdlm/software/acdsinst/16.0/211/ib_installers/arria10_part2-16.0.0.211.qdz',
+	'a10_part3' : 'http://download.altera.com/akdlm/software/acdsinst/16.0/211/ib_installers/arria10_part3-16.0.0.211.qdz',
+	'a5' : 'http://download.altera.com/akdlm/software/acdsinst/16.0/211/ib_installers/arriav-16.0.0.211.qdz',
+	'a5gz' : 'http://download.altera.com/akdlm/software/acdsinst/16.0/211/ib_installers/arriavgz-16.0.0.211.qdz',
+	'c4' : 'http://download.altera.com/akdlm/software/acdsinst/16.0/211/ib_installers/cyclone-16.0.0.211.qdz',
+	'c5' : 'http://download.altera.com/akdlm/software/acdsinst/16.0/211/ib_installers/cyclonev-16.0.0.211.qdz',
+	'm2' : 'http://download.altera.com/akdlm/software/acdsinst/16.0/211/ib_installers/max-16.0.0.211.qdz',
+	'm10' : 'http://download.altera.com/akdlm/software/acdsinst/16.0/211/ib_installers/max10-16.0.0.211.qdz',
+	's4' : 'http://download.altera.com/akdlm/software/acdsinst/16.0/211/ib_installers/stratixiv-16.0.0.211.qdz',
+	's5' : 'http://download.altera.com/akdlm/software/acdsinst/16.0/211/ib_installers/stratixv-16.0.0.211.qdz'
+}
+
+quartus_url_151std = {
+	'setup' : 'http://download.altera.com/akdlm/software/acdsinst/15.1/185/ib_installers/QuartusSetup-15.1.0.185-linux.run',
+	'modelsim' : 'http://download.altera.com/akdlm/software/acdsinst/15.1/185/ib_installers/ModelSimSetup-15.1.0.185-linux.run',
+	'a2' : 'http://download.altera.com/akdlm/software/acdsinst/15.1/185/ib_installers/arria-15.1.0.185.qdz',
+	'a10_part1' : 'http://download.altera.com/akdlm/software/acdsinst/15.1/185/ib_installers/arria10_part1-15.1.0.185.qdz',
+	'a10_part2' : 'http://download.altera.com/akdlm/software/acdsinst/15.1/185/ib_installers/arria10_part2-15.1.0.185.qdz',
+	'a10_part3' : 'http://download.altera.com/akdlm/software/acdsinst/15.1/185/ib_installers/arria10_part3-15.1.0.185.qdz',
+	'a5' : 'http://download.altera.com/akdlm/software/acdsinst/15.1/185/ib_installers/arriav-15.1.0.185.qdz',
+	'a5gz' : 'http://download.altera.com/akdlm/software/acdsinst/15.1/185/ib_installers/arriavgz-15.1.0.185.qdz',
+	'c4' : 'http://download.altera.com/akdlm/software/acdsinst/15.1/185/ib_installers/cyclone-15.1.0.185.qdz',
+	's4' : 'http://download.altera.com/akdlm/software/acdsinst/15.1/185/ib_installers/stratixiv-15.1.0.185.qdz',
+	's5' : 'http://download.altera.com/akdlm/software/acdsinst/15.1/185/ib_installers/stratixv-15.1.0.185.qdz'
+}
+
 quartus_versions = {
+    '15.1std' : quartus_url_151std,
+    '16.0std' : quartus_url_160std,
     '16.1std' : quartus_url_161std,
     '17.0pro' : quartus_url_170pro,
     '17.0std' : quartus_url_170std,
@@ -146,7 +207,9 @@ quartus_versions = {
     '17.1std' : quartus_url_171std,
     '17.1lite' : quartus_url_171lite,
     '18.0pro' : quartus_url_180pro,
-    '18.0std' : quartus_url_180std
+    '18.0std' : quartus_url_180std,
+    '18.1pro' : quartus_url_181pro,
+    '18.1std' : quartus_url_181std
 }
 
 
