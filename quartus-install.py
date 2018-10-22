@@ -269,7 +269,7 @@ def install_quartus(version, installdir):
     float_version = float(numeric_version)
     if float_version >= 17.1:
         args = args + ['--accept_eula', '1']
-    process = subprocess.Popen(['./'+leafname] + args + ['--installdir', target])
+    process = subprocess.Popen(['./'+leafname] + args + ['--installdir', target], bufsize=1)
     rc = process.wait()
     return rc
 #            ./$QUARTUS_SCRIPT --mode unattended --unattendedmodeui minimal --installdir $QUARTUS_DIR && \
