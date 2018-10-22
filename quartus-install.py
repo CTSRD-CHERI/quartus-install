@@ -162,7 +162,7 @@ quartus_url_161std = {
     
 }
 
-quartus_url_171lite = quartus_url_171std
+quartus_url_171lite = dict(quartus_url_171std)
 quartus_url_171lite['setup'] = "http://download.altera.com/akdlm/software/acdsinst/17.1std/590/ib_installers/QuartusLiteSetup-17.1.0.590-linux.run"
 
 
@@ -267,7 +267,7 @@ def install_quartus(version, installdir):
     args = ['--mode', 'unattended', '--unattendedmodeui', 'minimal']
     numeric_version = ''.join(i for i in version if i.isdigit() or i=='.')
     float_version = float(numeric_version)
-    if float_version > 17.1:
+    if float_version >= 17.1:
         args = args + ['--accept_eula', '1']
     process = subprocess.Popen(['./'+leafname] + args + ['--installdir', target])
     rc = process.wait()
