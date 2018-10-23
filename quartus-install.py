@@ -59,8 +59,13 @@ quartus_url_181std = {
 	'c5' : 'http://download.altera.com/akdlm/software/acdsinst/18.1std/625/ib_installers/cyclonev-18.1.0.625.qdz',
 	's5' : 'http://download.altera.com/akdlm/software/acdsinst/18.1std/625/ib_installers/stratixv-18.1.0.625.qdz',
 	'm10' : 'http://download.altera.com/akdlm/software/acdsinst/18.1std/625/ib_installers/max10-18.1.0.625.qdz',
-	'm2' : 'http://download.altera.com/akdlm/software/acdsinst/18.1std/625/ib_installers/max-18.1.0.625.qdz'
+	'm2' : 'http://download.altera.com/akdlm/software/acdsinst/18.1std/625/ib_installers/max-18.1.0.625.qdz',
+	'opencl' : 'http://download.altera.com/akdlm/software/acdsinst/18.1std/625/ib_installers/AOCLSetup-18.1.0.625-linux.run',
+	'eds' : 'http://download.altera.com/akdlm/software/acdsinst/18.1std/625/ib_installers/SoCEDSSetup-18.1.0.625-linux.run'
 }
+
+quartus_url_181lite = dict(quartus_url_181std)
+quartus_url_181lite['setup'] = "http://download.altera.com/akdlm/software/acdsinst/18.1std/625/ib_installers/QuartusLiteSetup-18.1.0.625-linux.run"
 
 
 quartus_url_171std = {
@@ -79,7 +84,10 @@ quartus_url_171std = {
     'a5gz' : "http://download.altera.com/akdlm/software/acdsinst/17.1std/590/ib_installers/arriav-17.1.0.590.qdz",
     'm5' : "http://download.altera.com/akdlm/software/acdsinst/17.1std/590/ib_installers/arriav-17.1.0.590.qdz",
     'm10' : "http://download.altera.com/akdlm/software/acdsinst/17.1std/590/ib_installers/arriav-17.1.0.590.qdz",
-    'update1' : "http://download.altera.com/akdlm/software/acdsinst/17.1std.1/593/update/QuartusSetup-17.1.1.593-linux.run"
+    'update1' : "http://download.altera.com/akdlm/software/acdsinst/17.1std.1/593/update/QuartusSetup-17.1.1.593-linux.run",
+    'dsp' : 'http://download.altera.com/akdlm/software/acdsinst/17.1std/590/ib_installers/DSPBuilderSetup-17.1.0.590-linux.run',
+    'opencl' : 'http://download.altera.com/akdlm/software/acdsinst/17.1std/590/ib_installers/AOCLSetup-17.1.0.590-linux.run',
+    'eds' : 'http://download.altera.com/akdlm/software/acdsinst/17.1std/590/ib_installers/SoCEDSSetup-17.1.0.590-linux.run'
 }
 
 quartus_url_171pro = {
@@ -121,6 +129,9 @@ quartus_url_180std = {
     's4' : "http://download.altera.com/akdlm/software/acdsinst/18.0std/614/ib_installers/stratixiv-18.0.0.614.qdz",
     's5': "http://download.altera.com/akdlm/software/acdsinst/18.0std/614/ib_installers/stratixv-18.0.0.614.qdz"
 }
+
+quartus_url_180lite = dict(quartus_url_180std)
+quartus_url_180lite['setup'] = 'http://download.altera.com/akdlm/software/acdsinst/18.0std/614/ib_installers/QuartusLiteSetup-18.0.0.614-linux.run'
 
 quartus_url_170pro = {
     'setup' : "http://download.altera.com/akdlm/software/acdsinst/17.0/290/ib_installers/QuartusProSetup-17.0.0.290-linux.run",
@@ -208,8 +219,10 @@ quartus_versions = {
     '17.1lite' : quartus_url_171lite,
     '18.0pro' : quartus_url_180pro,
     '18.0std' : quartus_url_180std,
+    '18.0lite' : quartus_url_180lite,
     '18.1pro' : quartus_url_181pro,
-    '18.1std' : quartus_url_181std
+    '18.1std' : quartus_url_181std,
+    '18.1lite' : quartus_url_181lite
 }
 
 
@@ -235,7 +248,6 @@ def match_wanted_parts(version, devices):
 def download_quartus(version, devices):
     # find which pieces we need to fetch
     parts = match_wanted_parts(version, devices)
-    parts.append('setup')
     # convert that to a list of URLs
     urls = {x: quartus_versions[version][x] for x in parts}.values()
     print urls
@@ -280,6 +292,7 @@ parser = argparse.ArgumentParser(description='Download and install Quartus.')
 parser.add_argument('--download-only', action='store_true', help='Only download, don\'t install')
 parser.add_argument('--install-only', action='store_true', help='Only install, don\'t download')
 parser.add_argument('--prune', action='store_true', help='Delete install files when finished')
+parser.add_argument('--nosetup', action='store_true', help="Don't download Quartus setup frontend")
 parser.add_argument('version', help='Quartus version, eg 18.0pro, 17.1lite, 16.1std')
 parser.add_argument('target', help='Directory to install Quartus in')
 parser.add_argument('device', nargs='+', help='Device to download/install in Quartus, eg s5 (Stratix 5), a10 (Arria 10), m2 (MAX II), c10gx (Cyclone 10GX)')
@@ -287,7 +300,10 @@ args = parser.parse_args(sys.argv[1:])
 
 version = args.version
 target = args.target
-parts = ['setup'] + match_wanted_parts(version, args.device)
+parts = []
+if not args.nosetup:
+    parts = parts + ['setup']
+parts = parts + match_wanted_parts(version, args.device)
 if not args.install_only:
     print("Downloading Quartus %s parts %s\n" % (version, parts))
     rc, urls = download_quartus(version, args.device)

@@ -24,6 +24,11 @@ optional arguments:
   --prune          Delete install files when finished
 ```
 
+You will also need the 'puf' tool installed to perform parallel downloads
+(since the Akamai servers have limited per-file bandwidth, it is most
+efficient to download all the pieces in parallel if you are on a
+high-bandwidth link).
+
 Please note that installing Quartus implies acceptance of [Intel FPGA's
 EULA](http://fpgasoftware.intel.com/eula/) for the appropriate version(s)
 you download.
