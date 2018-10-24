@@ -57,6 +57,7 @@ quartus_url_181std = {
 	'a2' : 'http://download.altera.com/akdlm/software/acdsinst/18.1std/625/ib_installers/arria-18.1.0.625.qdz',
 	'c10lp' : 'http://download.altera.com/akdlm/software/acdsinst/18.1std/625/ib_installers/cyclone10lp-18.1.0.625.qdz',
 	'c5' : 'http://download.altera.com/akdlm/software/acdsinst/18.1std/625/ib_installers/cyclonev-18.1.0.625.qdz',
+	's4' : 'http://download.altera.com/akdlm/software/acdsinst/18.1std/625/ib_installers/stratixiv-18.1.0.625.qdz',
 	's5' : 'http://download.altera.com/akdlm/software/acdsinst/18.1std/625/ib_installers/stratixv-18.1.0.625.qdz',
 	'm10' : 'http://download.altera.com/akdlm/software/acdsinst/18.1std/625/ib_installers/max10-18.1.0.625.qdz',
 	'm2' : 'http://download.altera.com/akdlm/software/acdsinst/18.1std/625/ib_installers/max-18.1.0.625.qdz',
@@ -78,7 +79,7 @@ quartus_url_171std = {
     's4' : "http://download.altera.com/akdlm/software/acdsinst/17.1std/590/ib_installers/stratixiv-17.1.0.590.qdz",
     's5' : "http://download.altera.com/akdlm/software/acdsinst/17.1std/590/ib_installers/stratixv-17.1.0.590.qdz",
     'c10lp' : "http://download.altera.com/akdlm/software/acdsinst/17.1std/590/ib_installers/arriav-17.1.0.590.qdz",
-    'c5' : "http://download.altera.com/akdlm/software/acdsinst/17.1std/590/ib_installers/stratixiv-17.1.0.590.qdz",
+    'c5' : "http://download.altera.com/akdlm/software/acdsinst/17.1std/590/ib_installers/cyclonev-17.1.0.590.qdz",
     'c4' : "http://download.altera.com/akdlm/software/acdsinst/17.1std/590/ib_installers/cyclone-17.1.0.590.qdz",
     'a5' : "http://download.altera.com/akdlm/software/acdsinst/17.1std/590/ib_installers/arriav-17.1.0.590.qdz",
     'a5gz' : "http://download.altera.com/akdlm/software/acdsinst/17.1std/590/ib_installers/arriav-17.1.0.590.qdz",
@@ -98,9 +99,9 @@ quartus_url_171pro = {
     'a10_part3' : "http://download.altera.com/akdlm/software/acdsinst/17.1/240/ib_installers/arria10_part3-17.1.0.240.qdz",
     'c10gx_part1' : "http://download.altera.com/akdlm/software/acdsinst/17.1/240/ib_installers/cyclone10gx_part1-17.1.0.240.qdz",
     'c10gx_part2' : "http://download.altera.com/akdlm/software/acdsinst/17.1/240/ib_installers/cyclone10gx_part2-17.1.0.240.qdz",
-    's10_part1' : "http://download.altera.com/akdlm/software/acdsinst/17.1/240/ib_installers/cyclone10gx_part1-17.1.0.240.qdz",
-    's10_part2' : "http://download.altera.com/akdlm/software/acdsinst/17.1/240/ib_installers/cyclone10gx_part1-17.1.0.240.qdz",
-    's10_part3' : "http://download.altera.com/akdlm/software/acdsinst/17.1/240/ib_installers/cyclone10gx_part1-17.1.0.240.qdz",
+    's10_part1' : "http://download.altera.com/akdlm/software/acdsinst/17.1/240/ib_installers/stratix10_part1-17.1.0.240.qdz",
+    's10_part2' : "http://download.altera.com/akdlm/software/acdsinst/17.1/240/ib_installers/stratix10_part2-17.1.0.240.qdz",
+    's10_part3' : "http://download.altera.com/akdlm/software/acdsinst/17.1/240/ib_installers/stratix10_part3-17.1.0.240.qdz",
     'update1' : "http://download.altera.com/akdlm/software/acdsinst/17.1.2/304/update/QuartusProSetup-17.1.2.304-linux.run"
 }
 
@@ -236,7 +237,7 @@ import argparse
 def match_wanted_parts(version, devices):
     # work out what devices we have available
     # and filter down to the list we want
-    parts = quartus_versions[version].keys()
+    parts = list(quartus_versions[version].keys())
     parts.remove('setup')
     wanted_parts = []
     for part in parts:
@@ -250,9 +251,9 @@ def download_quartus(version, devices):
     parts = match_wanted_parts(version, devices)
     # convert that to a list of URLs
     urls = {x: quartus_versions[version][x] for x in parts}.values()
-    print urls
+    print(urls)
     command = ['puf', '-c']
-    command = command + urls
+    command = command + list(urls)
     process = subprocess.Popen(command, bufsize=1)
     try:
         process.wait()
@@ -264,7 +265,7 @@ def download_quartus(version, devices):
     rc = process.wait()
     return rc, urls
 #    for line in iter(p.stdout.readline, b''):
-#        print line
+#        print(line)
 #    p.stdout.close()
 #    p.wait()
 #    return p.returncode
@@ -273,7 +274,7 @@ def download_quartus(version, devices):
 def install_quartus(version, installdir):
     setup = quartus_versions[version]['setup']
     leafname = os.path.basename(setup)
-    os.chmod(leafname, 0755)
+    os.chmod(leafname, 0o755)
     print(leafname)
     target = os.path.abspath(installdir)
     args = ['--mode', 'unattended', '--unattendedmodeui', 'minimal']
@@ -306,7 +307,7 @@ if not args.nosetup:
 parts = parts + match_wanted_parts(version, args.device)
 if not args.install_only:
     print("Downloading Quartus %s parts %s\n" % (version, parts))
-    rc, urls = download_quartus(version, args.device)
+    rc, urls = download_quartus(version, parts)
 if not args.download_only:
     print("Installing Quartus\n")
     install_quartus(version, target)
