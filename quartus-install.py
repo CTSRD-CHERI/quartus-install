@@ -246,9 +246,9 @@ def match_wanted_parts(version, devices):
     return wanted_parts
 
 
-def download_quartus(version, devices):
+def download_quartus(version, parts):
     # find which pieces we need to fetch
-    parts = match_wanted_parts(version, devices)
+#    parts = match_wanted_parts(version, devices)
     # convert that to a list of URLs
     urls = {x: quartus_versions[version][x] for x in parts}.values()
     print(urls)
