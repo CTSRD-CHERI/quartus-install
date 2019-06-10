@@ -36,6 +36,15 @@
 Download and install Quartus Prime software on remote servers that don't have a web browser or GUI
 """
 
+quartus_url_191pro = {
+    'setup' : 'http://download.altera.com/akdlm/software/acdsinst/19.1/240/ib_installers/QuartusProSetup-19.1.0.240-linux.run',
+    'modelsim_part1' : 'http://download.altera.com/akdlm/software/acdsinst/19.1/240/ib_installers/ModelSimProSetup-19.1.0.240-linux.run',
+    'modelsim_part2' : 'http://download.altera.com/akdlm/software/acdsinst/19.1/240/ib_installers/modelsim-part2-19.1.0.240-linux.qdz',
+    'a10' : 'http://download.altera.com/akdlm/software/acdsinst/19.1/240/ib_installers/arria10-19.1.0.240.qdz',
+    'c10gx' : 'http://download.altera.com/akdlm/software/acdsinst/19.1/240/ib_installers/cyclone10gx-19.1.0.240.qdz',
+    's10' : 'http://download.altera.com/akdlm/software/acdsinst/19.1/240/ib_installers/stratix10-19.1.0.240.qdz'
+}
+
 quartus_url_181pro = {
     'setup' : 'http://download.altera.com/akdlm/software/acdsinst/18.1/222/ib_installers/QuartusProSetup-18.1.0.222-linux.run',
     'modelsim_part1' : 'http://download.altera.com/akdlm/software/acdsinst/18.1/222/ib_installers/ModelSimProSetup-18.1.0.222-linux.run',
@@ -223,7 +232,8 @@ quartus_versions = {
     '18.0lite' : quartus_url_180lite,
     '18.1pro' : quartus_url_181pro,
     '18.1std' : quartus_url_181std,
-    '18.1lite' : quartus_url_181lite
+    '18.1lite' : quartus_url_181lite,
+    '19.1pro' : quartus_url_191pro
 }
 
 
