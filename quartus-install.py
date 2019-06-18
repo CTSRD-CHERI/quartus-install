@@ -42,7 +42,8 @@ quartus_url_191pro = {
     'modelsim_part2' : 'http://download.altera.com/akdlm/software/acdsinst/19.1/240/ib_installers/modelsim-part2-19.1.0.240-linux.qdz',
     'a10' : 'http://download.altera.com/akdlm/software/acdsinst/19.1/240/ib_installers/arria10-19.1.0.240.qdz',
     'c10gx' : 'http://download.altera.com/akdlm/software/acdsinst/19.1/240/ib_installers/cyclone10gx-19.1.0.240.qdz',
-    's10' : 'http://download.altera.com/akdlm/software/acdsinst/19.1/240/ib_installers/stratix10-19.1.0.240.qdz'
+    's10' : 'http://download.altera.com/akdlm/software/acdsinst/19.1/240/ib_installers/stratix10-19.1.0.240.qdz',
+    'patch_0.03' : 'https://www.intel.com/content/dam/altera-www/global/en_US/support/knowledge-center/components/2019/quartus-19.1-0.03-linux.run'
 }
 
 quartus_url_181pro = {
@@ -241,7 +242,7 @@ import os
 import subprocess
 import sys
 import argparse
-
+import tempfile
 
 
 def match_wanted_parts(version, devices):
@@ -253,17 +254,19 @@ def match_wanted_parts(version, devices):
     for part in parts:
         if part.split("_",1)[0] in devices:
             wanted_parts.append(part)
+        if part.split("_",1)[0] == "patch":
+            wanted_parts.append(part)
     return wanted_parts
 
 
 def download_quartus(version, parts):
-    # find which pieces we need to fetch
-#    parts = match_wanted_parts(version, devices)
-    # convert that to a list of URLs
+    # convert the pieces we need to a list of URLs
     urls = {x: quartus_versions[version][x] for x in parts}.values()
-    print(urls)
-    command = ['puf', '-c']
-    command = command + list(urls)
+    (handle, urllistfile) = tempfile.mkstemp()
+    with open(urllistfile, 'w') as urlfile:
+        for url in urls:
+            urlfile.write("%s\n" % url)
+    command = ['aria2c', '--continue', '--download-result=full', '--summary=300', '--input-file', urllistfile]
     process = subprocess.Popen(command, bufsize=1)
     try:
         process.wait()
@@ -273,17 +276,17 @@ def download_quartus(version, parts):
         except OSError:
             pass
     rc = process.wait()
+    os.remove(urllistfile)
     return rc, urls
-#    for line in iter(p.stdout.readline, b''):
-#        print(line)
-#    p.stdout.close()
-#    p.wait()
-#    return p.returncode
 
 
 def install_quartus(version, installdir):
     setup = quartus_versions[version]['setup']
-    leafname = os.path.basename(setup)
+    rc = run_installer(setup, installdir)
+    return rc
+    
+def run_installer(installerfile, installdir):
+    leafname = os.path.basename(installerfile)
     os.chmod(leafname, 0o755)
     print(leafname)
     target = os.path.abspath(installdir)
@@ -297,6 +300,10 @@ def install_quartus(version, installdir):
     return rc
 #            ./$QUARTUS_SCRIPT --mode unattended --unattendedmodeui minimal --installdir $QUARTUS_DIR && \
     
+def install_patch(version, installdir, patchname):
+    patchfile = quartus_versions[version][patchname]
+    rc = run_installer(patchfile, installdir)
+    return rc
 
 
 parser = argparse.ArgumentParser(description='Download and install Quartus.')
@@ -312,6 +319,11 @@ args = parser.parse_args(sys.argv[1:])
 version = args.version
 target = args.target
 parts = []
+
+if version not in quartus_versions.keys():
+    print("Unrecognised Quartus version '%s' (examples 16.1lite, 18.1std, 19.1pro)" % version)
+    sys.exit(1)
+
 if not args.nosetup:
     parts = parts + ['setup']
 parts = parts + match_wanted_parts(version, args.device)
@@ -321,6 +333,11 @@ if not args.install_only:
 if not args.download_only:
     print("Installing Quartus\n")
     install_quartus(version, target)
+    for patch in parts:
+        if patch.split("_",1)[0] == "patch":
+            print("Installing patch %s\n" % (patch))
+            install_patch(version, target, patch)
+
 if args.prune and not args.install_only:
     for url in urls:
         leafname = url[url.rfind("/")+1:]
