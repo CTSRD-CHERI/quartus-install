@@ -266,7 +266,7 @@ def download_quartus(version, parts):
     with open(urllistfile, 'w') as urlfile:
         for url in urls:
             urlfile.write("%s\n" % url)
-    command = ['aria2c', '--continue', '--download-result=full', '--summary=300', '--input-file', urllistfile]
+    command = ['aria2c', '--continue', '--file-allocation=none', '--download-result=full', '--summary=300', '--input-file', urllistfile]
     process = subprocess.Popen(command, bufsize=1)
     try:
         process.wait()
@@ -305,6 +305,11 @@ def install_patch(version, installdir, patchname):
     rc = run_installer(patchfile, installdir)
     return rc
 
+def cmd_exists(cmd):
+    return subprocess.call("type " + cmd, shell=True, 
+        stdout=subprocess.PIPE, stderr=subprocess.PIPE) == 0
+
+
 
 parser = argparse.ArgumentParser(description='Download and install Quartus.')
 parser.add_argument('--download-only', action='store_true', help='Only download, don\'t install')
@@ -319,6 +324,10 @@ args = parser.parse_args(sys.argv[1:])
 version = args.version
 target = args.target
 parts = []
+
+if not cmd_exists('aria2c'):
+    print("Please install the 'aria2' tool (command line executable 'aria2c')")
+    sys.exit(2)
 
 if version not in quartus_versions.keys():
     print("Unrecognised Quartus version '%s' (examples 16.1lite, 18.1std, 19.1pro)" % version)
