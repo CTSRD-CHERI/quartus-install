@@ -14,8 +14,24 @@ Download and install Quartus.
 positional arguments:
   version          Quartus version, eg 18.0pro, 17.1lite, 16.1std
   target           Directory to install Quartus in
-  device           Device to download/install in Quartus, eg s5 (Stratix 5),
-                   a10 (Arria 10), m2 (MAX II), c10gx (Cyclone 10GX)
+  device           Device to download/install in Quartus.  Supported:
+                           a2    Arria II
+                           a5    Arria V
+                           a5gz  Arria V GZ
+                           a10   Arria 10
+                           c4    Cyclone IV
+                           c5    Cyclone V
+                           c10gx Cyclone 10 GX
+                           c10lp Cyclone 10 LP
+                           m2    MAX II
+                           m5    MAX V
+                           m10   MAX 10
+                           s4    Stratix IV
+                           s5    Stratix V
+                           s10   Stratix 10
+                           dsp   DSP Builder
+                           eds   ARM EDS
+                           opencl OpenCL toolkit
 
 optional arguments:
   -h, --help       show this help message and exit

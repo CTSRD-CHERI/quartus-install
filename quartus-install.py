@@ -36,6 +36,26 @@
 Download and install Quartus Prime software on remote servers that don't have a web browser or GUI
 """
 
+
+def generate_pro_url(quartus_version, minor_version, revision):
+    base_url = "http://download.altera.com/akdlm/software/acdsinst/"
+    full_version = "%s.%s.%s" % (quartus_version, minor_version, revision)
+    version_url = "%s/%s/%s/ib_installers" % (base_url, quartus_version, revision)
+    pro_urls = {}
+    pro_urls.update( { "setup" : "%s/QuartusProSetup-%s-linux.run" % (version_url, full_version) } )
+    if quartus_version == '19.2':
+        pro_urls.update( { "modelsim_part1" : "%s/ModelSimProSetup-%s-linux.run" % (version_url, full_version) } )
+        pro_urls.update( { "modelsim_part2" : "%s/modelsim-part2-%s-linux.qdz" % (version_url, full_version) } )
+    else:
+        pro_urls.update( { "modelsim_" : "%s/ModelSimProSetup-%s-linux.run" % (version_url, full_version) } )
+    pro_urls.update( { "a10" : "%s/arria10-%s.qdz" % (version_url, full_version) } )
+    pro_urls.update( { "c10gx" : "%s/cyclone10gx-%s.qdz" % (version_url, full_version) } )
+    pro_urls.update( { "s10" : "%s/stratix10-%s.qdz" % (version_url, full_version) } )
+    return pro_urls
+
+quartus_url_192pro = generate_pro_url('19.2', '0', '57')
+
+
 quartus_url_191pro = {
     'setup' : 'http://download.altera.com/akdlm/software/acdsinst/19.1/240/ib_installers/QuartusProSetup-19.1.0.240-linux.run',
     'modelsim_part1' : 'http://download.altera.com/akdlm/software/acdsinst/19.1/240/ib_installers/ModelSimProSetup-19.1.0.240-linux.run',
@@ -234,7 +254,8 @@ quartus_versions = {
     '18.1pro' : quartus_url_181pro,
     '18.1std' : quartus_url_181std,
     '18.1lite' : quartus_url_181lite,
-    '19.1pro' : quartus_url_191pro
+    '19.1pro' : quartus_url_191pro,
+    '19.2pro' : quartus_url_192pro
 }
 
 
