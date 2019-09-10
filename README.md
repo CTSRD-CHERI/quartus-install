@@ -38,6 +38,9 @@ optional arguments:
   --download-only  Only download, don't install
   --install-only   Only install, don't download
   --prune          Delete install files when finished
+  --nosetup             Don't download Quartus setup frontend
+  --parallel PARALLEL, -j PARALLEL
+                        Number of parallel download connections
 ```
 
 Example usage:
