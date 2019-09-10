@@ -36,6 +36,8 @@
 Download and install Quartus Prime software on remote servers that don't have a web browser or GUI
 """
 
+default_parallel = 16
+
 
 def generate_pro_url(quartus_version, minor_version, revision):
     base_url = "http://download.altera.com/akdlm/software/acdsinst/"
@@ -280,14 +282,19 @@ def match_wanted_parts(version, devices):
     return wanted_parts
 
 
-def download_quartus(version, parts):
+def download_quartus(version, parts, args):
     # convert the pieces we need to a list of URLs
     urls = {x: quartus_versions[version][x] for x in parts}.values()
     (handle, urllistfile) = tempfile.mkstemp()
     with open(urllistfile, 'w') as urlfile:
         for url in urls:
             urlfile.write("%s\n" % url)
-    command = ['aria2c', '--continue', '--file-allocation=none', '--download-result=full', '--summary=300', '--input-file', urllistfile]
+    if args.parallel != None:
+        parallel = '-x'+args.parallel
+    else:
+        print("Using default of %d parallel download connections" % default_parallel)
+        parallel = '-x'+str(default_parallel)
+    command = ['aria2c', '--continue', '--file-allocation=none', '--download-result=full', '--summary=300', parallel, '--input-file', urllistfile]
     process = subprocess.Popen(command, bufsize=1)
     try:
         process.wait()
@@ -337,6 +344,7 @@ parser.add_argument('--download-only', action='store_true', help='Only download,
 parser.add_argument('--install-only', action='store_true', help='Only install, don\'t download')
 parser.add_argument('--prune', action='store_true', help='Delete install files when finished')
 parser.add_argument('--nosetup', action='store_true', help="Don't download Quartus setup frontend")
+parser.add_argument('--parallel', '-j', action='store', help="Number of parallel download connections")
 parser.add_argument('version', help='Quartus version, eg 18.0pro, 17.1lite, 16.1std')
 parser.add_argument('target', help='Directory to install Quartus in')
 parser.add_argument('device', nargs='+', help='Device to download/install in Quartus, eg s5 (Stratix 5), a10 (Arria 10), m2 (MAX II), c10gx (Cyclone 10GX)')
@@ -359,7 +367,7 @@ if not args.nosetup:
 parts = parts + match_wanted_parts(version, args.device)
 if not args.install_only:
     print("Downloading Quartus %s parts %s\n" % (version, parts))
-    rc, urls = download_quartus(version, parts)
+    rc, urls = download_quartus(version, parts, args)
 if not args.download_only:
     print("Installing Quartus\n")
     install_quartus(version, target)
