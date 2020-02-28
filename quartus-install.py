@@ -38,25 +38,70 @@ Download and install Quartus Prime software on remote servers that don't have a 
 
 default_parallel = 16
 
+fpga_key = {
+    'a2' : 'arria',
+    'a5' : 'arriav',
+    'a10': 'arria10',
+    'a5gz': 'arriavgz',
+    'c4' : 'cyclone',
+    'c5' : 'cyclonev',
+    'c10lp' : 'cyclone10lp',
+    'm2' : 'max',
+    'm10' : 'max10',
+    's4' : 'stratixiv',
+    's5' : 'stratixv'
+    }
+
 
 def generate_pro_url(quartus_version, minor_version, revision):
     base_url = "http://download.altera.com/akdlm/software/acdsinst/"
     full_version = "%s.%s.%s" % (quartus_version, minor_version, revision)
     version_url = "%s/%s/%s/ib_installers" % (base_url, quartus_version, revision)
     pro_urls = {}
-    pro_urls.update( { "setup" : "%s/QuartusProSetup-%s-linux.run" % (version_url, full_version) } )
-    if quartus_version == '19.2':
+    if quartus_version >= '19.3':
+        pro_urls.update( { "setup" : "%s/QuartusProSetup-%s-linux.run" % (version_url, full_version) } )
+        pro_urls.update( { "setup_part2" : "%s/QuartusProSetup-part2-%s-linux.run" % (version_url, full_version) } )
+    else:
+        pro_urls.update( { "setup" : "%s/QuartusProSetup-%s-linux.run" % (version_url, full_version) } )
+
+    if quartus_version >= '19.2':
         pro_urls.update( { "modelsim_part1" : "%s/ModelSimProSetup-%s-linux.run" % (version_url, full_version) } )
-        pro_urls.update( { "modelsim_part2" : "%s/modelsim-part2-%s-linux.qdz" % (version_url, full_version) } )
+        pro_urls.update( { "modelsim_part2" : "%s/ModelSimProSetup-part2-%s-linux.run" % (version_url, full_version) } )
     else:
         pro_urls.update( { "modelsim_" : "%s/ModelSimProSetup-%s-linux.run" % (version_url, full_version) } )
+
+    if quartus_version == '19.2':
+        pro_urls.update( { "modelsim_part2" : "%s/modelsim-part2-%s-linux.qdz" % (version_url, full_version) } )
+
     pro_urls.update( { "a10" : "%s/arria10-%s.qdz" % (version_url, full_version) } )
     pro_urls.update( { "c10gx" : "%s/cyclone10gx-%s.qdz" % (version_url, full_version) } )
     pro_urls.update( { "s10" : "%s/stratix10-%s.qdz" % (version_url, full_version) } )
     return pro_urls
 
+def generate_std_url(quartus_version, minor_version, revision, edition):
+    base_url="http://download.altera.com/akdlm/software/acdsinst/"
+    version_url = "%s/%s%s/%s/ib_installers" % (base_url, quartus_version, edition, revision)
+    full_version = "%s.%s.%s" % (quartus_version, minor_version, revision)
+    urls = {}
+    urls.update( { "setup" : "%s/QuartusSetup-%s-linux.run" % (version_url, full_version) } )
+    urls.update( { "modelsim" : "%s/ModelSimSetup-%s-linux.run" % (version_url, full_version) } )
+    for part in [1,2,3]:
+        urls.update( { "a10_part%d" % (part) : "%s/arria10_part%d-%s.qdz" % (version_url, part, full_version) } )
+    fpgas = fpga_key
+    del fpgas['a10']
+    print(fpgas.keys)
+    for fpga in list(fpgas.keys()):
+        print(fpga)
+        urls.update( { fpga : "%s/%s-%s.qdz" % (version_url, fpga_key[fpga], full_version) } )
+    return urls
+
+quartus_url_194pro = generate_pro_url('19.4', '0', '64')
+quartus_url_193pro = generate_pro_url('19.3', '0', '222')
 quartus_url_192pro = generate_pro_url('19.2', '0', '57')
 
+quartus_url_191std = generate_std_url('19.1', '0', '670', 'std')
+quartus_url_191lite = dict(quartus_url_191std)
+quartus_url_191lite['setup'] = "http://download.altera.com/akdlm/software/acdsinst/19.1std/670/ib_installers/QuartusLiteSetup-19.1.0.670-linux.run"
 
 quartus_url_191pro = {
     'setup' : 'http://download.altera.com/akdlm/software/acdsinst/19.1/240/ib_installers/QuartusProSetup-19.1.0.240-linux.run',
@@ -256,8 +301,11 @@ quartus_versions = {
     '18.1pro' : quartus_url_181pro,
     '18.1std' : quartus_url_181std,
     '18.1lite' : quartus_url_181lite,
+    '19.1std' : quartus_url_191std,
     '19.1pro' : quartus_url_191pro,
     '19.2pro' : quartus_url_192pro
+#    '19.3pro' : quartus_url_193pro,
+#    '19.4pro' : quartus_url_194pro
 }
 
 
