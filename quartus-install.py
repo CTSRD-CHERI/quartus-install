@@ -89,9 +89,7 @@ def generate_std_url(quartus_version, minor_version, revision, edition):
         urls.update( { "a10_part%d" % (part) : "%s/arria10_part%d-%s.qdz" % (version_url, part, full_version) } )
     fpgas = fpga_key
     del fpgas['a10']
-    print(fpgas.keys)
     for fpga in list(fpgas.keys()):
-        print(fpga)
         urls.update( { fpga : "%s/%s-%s.qdz" % (version_url, fpga_key[fpga], full_version) } )
     return urls
 
@@ -364,7 +362,6 @@ def install_quartus(version, installdir):
 def run_installer(installerfile, installdir):
     leafname = os.path.basename(installerfile)
     os.chmod(leafname, 0o755)
-    print(leafname)
     target = os.path.abspath(installdir)
     args = ['--mode', 'unattended', '--unattendedmodeui', 'minimal']
     numeric_version = ''.join(i for i in version if i.isdigit() or i=='.')
