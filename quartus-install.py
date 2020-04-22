@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 #-
 # SPDX-License-Identifier: BSD-2-Clause
 #
@@ -73,6 +73,8 @@ def generate_pro_url(quartus_version, minor_version, revision):
     if quartus_version == '19.2':
         pro_urls.update( { "modelsim_part2" : "%s/modelsim-part2-%s-linux.qdz" % (version_url, full_version) } )
 
+    if quartus_version >= '20.1':
+        pro_urls.update( { "agilex" : "%s/agilex-%s.qdz" % (version_url, full_version) } )
     pro_urls.update( { "a10" : "%s/arria10-%s.qdz" % (version_url, full_version) } )
     pro_urls.update( { "c10gx" : "%s/cyclone10gx-%s.qdz" % (version_url, full_version) } )
     pro_urls.update( { "s10" : "%s/stratix10-%s.qdz" % (version_url, full_version) } )
@@ -93,6 +95,7 @@ def generate_std_url(quartus_version, minor_version, revision, edition):
         urls.update( { fpga : "%s/%s-%s.qdz" % (version_url, fpga_key[fpga], full_version) } )
     return urls
 
+quartus_url_201pro = generate_pro_url('20.1', '0', '177')
 quartus_url_194pro = generate_pro_url('19.4', '0', '64')
 quartus_url_193pro = generate_pro_url('19.3', '0', '222')
 quartus_url_192pro = generate_pro_url('19.2', '0', '57')
@@ -301,9 +304,10 @@ quartus_versions = {
     '18.1lite' : quartus_url_181lite,
     '19.1std' : quartus_url_191std,
     '19.1pro' : quartus_url_191pro,
-    '19.2pro' : quartus_url_192pro
-#    '19.3pro' : quartus_url_193pro,
-#    '19.4pro' : quartus_url_194pro
+    '19.2pro' : quartus_url_192pro,
+    '19.3pro' : quartus_url_193pro,
+    '19.4pro' : quartus_url_194pro,
+    '20.1pro' : quartus_url_201pro
 }
 
 
@@ -324,6 +328,8 @@ def match_wanted_parts(version, devices):
         if part.split("_",1)[0] in devices:
             wanted_parts.append(part)
         if part.split("_",1)[0] == "patch":
+            wanted_parts.append(part)
+        if part == "setup_part2":
             wanted_parts.append(part)
     return wanted_parts
 
