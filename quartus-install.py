@@ -355,6 +355,7 @@ def download_quartus(version, parts, args):
             process.terminate()
         except OSError:
             pass
+        sys.exit(3)
     rc = process.wait()
     os.remove(urllistfile)
     return rc, urls
@@ -396,6 +397,7 @@ parser.add_argument('--install-only', action='store_true', help='Only install, d
 parser.add_argument('--prune', action='store_true', help='Delete install files when finished')
 parser.add_argument('--nosetup', action='store_true', help="Don't download Quartus setup frontend")
 parser.add_argument('--parallel', '-j', action='store', help="Number of parallel download connections")
+parser.add_argument('--fix-libpng', action='store_true', help="Build and add libpng12.so binary")
 parser.add_argument('version', help='Quartus version, eg 18.0pro, 17.1lite, 16.1std')
 parser.add_argument('target', help='Directory to install Quartus in')
 parser.add_argument('device', nargs='+', help='Device to download/install in Quartus, eg s5 (Stratix 5), a10 (Arria 10), m2 (MAX II), c10gx (Cyclone 10GX)')
@@ -432,3 +434,8 @@ if args.prune and not args.install_only:
         leafname = url[url.rfind("/")+1:]
         if os.path.exists(leafname):
             os.remove(leafname)
+
+if args.fix_libpng:
+    scriptdir = os.path.dirname(os.path.abspath(__file__))
+    os.system(scriptdir+"/install-libpng.sh "+target+"/quartus/linux64")
+
