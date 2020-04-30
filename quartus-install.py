@@ -140,8 +140,9 @@ quartus_url_181std = {
 	'm10' : 'http://download.altera.com/akdlm/software/acdsinst/18.1std/625/ib_installers/max10-18.1.0.625.qdz',
 	'm2' : 'http://download.altera.com/akdlm/software/acdsinst/18.1std/625/ib_installers/max-18.1.0.625.qdz',
 	'opencl' : 'http://download.altera.com/akdlm/software/acdsinst/18.1std/625/ib_installers/AOCLSetup-18.1.0.625-linux.run',
-	'eds' : 'http://download.altera.com/akdlm/software/acdsinst/18.1std/625/ib_installers/SoCEDSSetup-18.1.0.625-linux.run'
-}
+	'eds' : 'http://download.altera.com/akdlm/software/acdsinst/18.1std/625/ib_installers/SoCEDSSetup-18.1.0.625-linux.run',
+        'update_1': 'http://download.altera.com/akdlm/software/acdsinst/18.1std.1/646/update/QuartusSetup-18.1.1.646-linux.run'
+        }
 
 quartus_url_181lite = dict(quartus_url_181std)
 quartus_url_181lite['setup'] = "http://download.altera.com/akdlm/software/acdsinst/18.1std/625/ib_installers/QuartusLiteSetup-18.1.0.625-linux.run"
@@ -163,7 +164,7 @@ quartus_url_171std = {
     'a5gz' : "http://download.altera.com/akdlm/software/acdsinst/17.1std/590/ib_installers/arriav-17.1.0.590.qdz",
     'm5' : "http://download.altera.com/akdlm/software/acdsinst/17.1std/590/ib_installers/arriav-17.1.0.590.qdz",
     'm10' : "http://download.altera.com/akdlm/software/acdsinst/17.1std/590/ib_installers/arriav-17.1.0.590.qdz",
-    'update1' : "http://download.altera.com/akdlm/software/acdsinst/17.1std.1/593/update/QuartusSetup-17.1.1.593-linux.run",
+    'update_1' : "http://download.altera.com/akdlm/software/acdsinst/17.1std.1/593/update/QuartusSetup-17.1.1.593-linux.run",
     'dsp' : 'http://download.altera.com/akdlm/software/acdsinst/17.1std/590/ib_installers/DSPBuilderSetup-17.1.0.590-linux.run',
     'opencl' : 'http://download.altera.com/akdlm/software/acdsinst/17.1std/590/ib_installers/AOCLSetup-17.1.0.590-linux.run',
     'eds' : 'http://download.altera.com/akdlm/software/acdsinst/17.1std/590/ib_installers/SoCEDSSetup-17.1.0.590-linux.run'
@@ -180,7 +181,7 @@ quartus_url_171pro = {
     's10_part1' : "http://download.altera.com/akdlm/software/acdsinst/17.1/240/ib_installers/stratix10_part1-17.1.0.240.qdz",
     's10_part2' : "http://download.altera.com/akdlm/software/acdsinst/17.1/240/ib_installers/stratix10_part2-17.1.0.240.qdz",
     's10_part3' : "http://download.altera.com/akdlm/software/acdsinst/17.1/240/ib_installers/stratix10_part3-17.1.0.240.qdz",
-    'update1' : "http://download.altera.com/akdlm/software/acdsinst/17.1.2/304/update/QuartusProSetup-17.1.2.304-linux.run"
+    'update_1' : "http://download.altera.com/akdlm/software/acdsinst/17.1.2/304/update/QuartusProSetup-17.1.2.304-linux.run"
 }
 
 quartus_url_180pro = {
@@ -188,7 +189,7 @@ quartus_url_180pro = {
     'a10_part1' : "http://download.altera.com/akdlm/software/acdsinst/18.0/219/ib_installers/arria10-18.0.0.219.qdz",
     'c10gx_part1' : "http://download.altera.com/akdlm/software/acdsinst/18.0/219/ib_installers/cyclone10gx-18.0.0.219.qdz",
     's10_part1' : "http://download.altera.com/akdlm/software/acdsinst/18.0/219/ib_installers/stratix10-18.0.0.219.qdz",
-    'update1': "http://download.altera.com/akdlm/software/acdsinst/18.0.1/261/update/QuartusProSetup-18.0.1.261-linux.run"
+    'update_1': "http://download.altera.com/akdlm/software/acdsinst/18.0.1/261/update/QuartusProSetup-18.0.1.261-linux.run"
 }
 
 
@@ -329,6 +330,8 @@ def match_wanted_parts(version, devices):
             wanted_parts.append(part)
         if part.split("_",1)[0] == "patch":
             wanted_parts.append(part)
+        if part.split("_",1)[0] == "update":
+            wanted_parts.append(part)
         if part == "setup_part2":
             wanted_parts.append(part)
     return wanted_parts
@@ -427,6 +430,9 @@ if not args.download_only:
     for patch in parts:
         if patch.split("_",1)[0] == "patch":
             print("Installing patch %s\n" % (patch))
+            install_patch(version, target, patch)
+        if patch.split("_",1)[0] == "update":
+            print("Installing update %s\n" % (patch))
             install_patch(version, target, patch)
 
 if args.prune and not args.install_only:
