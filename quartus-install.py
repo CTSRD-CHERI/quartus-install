@@ -304,6 +304,7 @@ quartus_versions = {
     '18.1std' : quartus_url_181std,
     '18.1lite' : quartus_url_181lite,
     '19.1std' : quartus_url_191std,
+    '19.1lite' : quartus_url_191lite,	
     '19.1pro' : quartus_url_191pro,
     '19.2pro' : quartus_url_192pro,
     '19.3pro' : quartus_url_193pro,
