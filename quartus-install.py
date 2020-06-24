@@ -317,7 +317,7 @@ import subprocess
 import sys
 import argparse
 import tempfile
-
+import stat
 
 def match_wanted_parts(version, devices):
     # work out what devices we have available
@@ -371,7 +371,6 @@ def install_quartus(version, installdir):
     
 def run_installer(installerfile, installdir):
     leafname = os.path.basename(installerfile)
-    os.chmod(leafname, 0o755)
     target = os.path.abspath(installdir)
     args = ['--mode', 'unattended', '--unattendedmodeui', 'minimal']
     numeric_version = ''.join(i for i in version if i.isdigit() or i=='.')
@@ -424,6 +423,11 @@ parts = parts + match_wanted_parts(version, args.device)
 if not args.install_only:
     print("Downloading Quartus %s parts %s\n" % (version, parts))
     rc, urls = download_quartus(version, parts, args)
+    for url in urls:
+        leafname = url[url.rfind("/")+1:]
+        if os.path.exists(leafname) and leafname.endswith(".run"):
+            os.chmod(leafname, stat.S_IRWXU | stat.S_IXGRP | stat.S_IRGRP | stat.S_IXOTH | stat.S_IROTH)
+
 if not args.download_only:
     print("Installing Quartus\n")
     install_quartus(version, target)
