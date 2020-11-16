@@ -146,6 +146,7 @@ quartus_url_181std = {
 
 quartus_url_181lite = dict(quartus_url_181std)
 quartus_url_181lite['setup'] = "http://download.altera.com/akdlm/software/acdsinst/18.1std/625/ib_installers/QuartusLiteSetup-18.1.0.625-linux.run"
+quartus_url_181lite['a2'] = "http://download.altera.com/akdlm/software/acdsinst/18.1std/625/ib_installers/arria_lite-18.1.0.625.qdz"
 
 
 quartus_url_171std = {
