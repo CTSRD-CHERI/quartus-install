@@ -107,7 +107,7 @@ quartus_url_194pro = generate_pro_url('19.4', '0', '64')
 quartus_url_193pro = generate_pro_url('19.3', '0', '222')
 quartus_url_192pro = generate_pro_url('19.2', '0', '57')
 
-quartus_url_2011std = generate_std_url('20.1', '1', '720', 'std')
+quartus_url_2011std = generate_std_url('20.1', '1', '720', 'std.1')
 quartus_url_201std = generate_std_url('20.1', '0', '711', 'std')
 quartus_url_191std = generate_std_url('19.1', '0', '670', 'std')
 
@@ -408,8 +408,7 @@ def run_installer(installerfile, installdir):
     target = os.path.abspath(installdir)
     args = ['--mode', 'unattended', '--unattendedmodeui', 'minimal']
     numeric_version = ''.join(i for i in version if i.isdigit() or i=='.')
-    float_version = float(numeric_version)
-    if float_version >= 17.1:
+    if numeric_version >= '17.1':
         args = args + ['--accept_eula', '1']
     process = subprocess.Popen(['./'+leafname] + args + ['--installdir', target], bufsize=1)
     rc = process.wait()
