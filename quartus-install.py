@@ -75,6 +75,9 @@ def generate_pro_url(quartus_version, minor_version, revision):
 
     if quartus_version >= '20.1':
         pro_urls.update( { "agilex" : "%s/agilex-%s.qdz" % (version_url, full_version) } )
+    if quartus_version >= '20.3':
+        pro_urls.update( { "diamondmesa" : "%s/diamondmesa-%s.qdz" % (version_url, full_version) } )
+        pro_urls.update( { "setup_part2" : "%s/quartus_part2-%s.qdz" % (version_url, full_version) } )
     pro_urls.update( { "a10" : "%s/arria10-%s.qdz" % (version_url, full_version) } )
     pro_urls.update( { "c10gx" : "%s/cyclone10gx-%s.qdz" % (version_url, full_version) } )
     pro_urls.update( { "s10" : "%s/stratix10-%s.qdz" % (version_url, full_version) } )
@@ -90,19 +93,42 @@ def generate_std_url(quartus_version, minor_version, revision, edition):
     for part in [1,2,3]:
         urls.update( { "a10_part%d" % (part) : "%s/arria10_part%d-%s.qdz" % (version_url, part, full_version) } )
     fpgas = fpga_key
-    del fpgas['a10']
+    if 'a10' in fpgas:
+        del fpgas['a10']
     for fpga in list(fpgas.keys()):
         urls.update( { fpga : "%s/%s-%s.qdz" % (version_url, fpga_key[fpga], full_version) } )
     return urls
 
+# generate some URLs based on the regular pattern
+quartus_url_203pro = generate_pro_url('20.3', '0', '158')
+quartus_url_202pro = generate_pro_url('20.2', '0', '50')
 quartus_url_201pro = generate_pro_url('20.1', '0', '177')
 quartus_url_194pro = generate_pro_url('19.4', '0', '64')
 quartus_url_193pro = generate_pro_url('19.3', '0', '222')
 quartus_url_192pro = generate_pro_url('19.2', '0', '57')
 
+quartus_url_2011std = generate_std_url('20.1', '1', '720', 'std')
+quartus_url_201std = generate_std_url('20.1', '0', '711', 'std')
 quartus_url_191std = generate_std_url('19.1', '0', '670', 'std')
+
+# some files weren't updated in this patch release
+for part in ["a5", "a10_part1", "a10_part2", "a10_part3", "a5gz"] :
+    quartus_url_2011std[part] = quartus_url_201std[part]
+quartus_url_2011std['setup'] = "https://download.altera.com/akdlm/software/acdsinst/20.1std.1/720/ib_installers/QuartusSetup-20.1.1.720-linux.run"
+
+
+# Lite have a different installer but the same device files
+quartus_url_2011lite = dict(quartus_url_2011std)
+quartus_url_2011lite['setup'] = "http://download.altera.com/akdlm/software/acdsinst/20.1std.1/720/ib_installers/QuartusLiteSetup-20.1.1.720-linux.run"
+quartus_url_201lite = dict(quartus_url_201std)
+quartus_url_201lite['setup'] = "http://download.altera.com/akdlm/software/acdsinst/20.1std/711/ib_installers/QuartusLiteSetup-20.1.0.711-linux.run"
 quartus_url_191lite = dict(quartus_url_191std)
 quartus_url_191lite['setup'] = "http://download.altera.com/akdlm/software/acdsinst/19.1std/670/ib_installers/QuartusLiteSetup-19.1.0.670-linux.run"
+
+
+
+
+# older versions, where each has sufficient quirks not to fit the pattern
 
 quartus_url_191pro = {
     'setup' : 'http://download.altera.com/akdlm/software/acdsinst/19.1/240/ib_installers/QuartusProSetup-19.1.0.240-linux.run',
@@ -310,7 +336,13 @@ quartus_versions = {
     '19.2pro' : quartus_url_192pro,
     '19.3pro' : quartus_url_193pro,
     '19.4pro' : quartus_url_194pro,
-    '20.1pro' : quartus_url_201pro
+    '20.1std' : quartus_url_201std,
+    '20.1.1std' : quartus_url_2011std,
+    '20.1lite' : quartus_url_201lite,
+    '20.1.1lite' : quartus_url_2011lite,
+    '20.1pro' : quartus_url_201pro,
+    '20.2pro' : quartus_url_202pro,
+    '20.3pro' : quartus_url_203pro
 }
 
 
