@@ -447,7 +447,10 @@ if not cmd_exists('aria2c'):
     sys.exit(2)
 
 if version not in quartus_versions.keys():
-    print("Unrecognised Quartus version '%s' (examples 16.1lite, 18.1std, 19.1pro)" % version)
+    print("Unrecognised Quartus version '%s'" % version)
+    print("Supported versions are:")
+    for key in quartus_versions.keys():
+        print(key)
     sys.exit(1)
 
 if not args.nosetup:
