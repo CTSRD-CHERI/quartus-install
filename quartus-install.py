@@ -315,7 +315,18 @@ quartus_url_151std = {
 	's5' : 'https://download.altera.com/akdlm/software/acdsinst/15.1/185/ib_installers/stratixv-15.1.0.185.qdz'
 }
 
+quartus_url_150web = {
+        'setup' : 'https://download.altera.com/akdlm/software/acdsinst/15.0/145/ib_installers/QuartusSetupWeb-15.0.0.145-linux.run',
+        'modelsim' : 'https://download.altera.com/akdlm/software/acdsinst/15.0/145/ib_installers/ModelSimSetup-15.0.0.145-linux.run',
+        'a2' : 'https://download.altera.com/akdlm/software/acdsinst/15.0/145/ib_installers/arria-15.0.0.145.qdz',
+        'c4' : 'https://download.altera.com/akdlm/software/acdsinst/15.0/145/ib_installers/cyclone-15.0.0.145.qdz',
+        'c5' : 'https://download.altera.com/akdlm/software/acdsinst/15.0/145/ib_installers/cyclonev-15.0.0.145.qdz',
+        'm2' : 'https://download.altera.com/akdlm/software/acdsinst/15.0/145/ib_installers/max-15.0.0.145.qdz',
+        'm10' : 'https://download.altera.com/akdlm/software/acdsinst/15.0/145/ib_installers/max10-15.0.0.145.qdz'
+}
+
 quartus_versions = {
+    '15.0web' : quartus_url_150web,
     '15.1std' : quartus_url_151std,
     '16.0std' : quartus_url_160std,
     '16.1std' : quartus_url_161std,
