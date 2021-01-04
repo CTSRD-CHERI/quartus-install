@@ -335,7 +335,18 @@ quartus_url_141web = {
         'm10' : 'https://download.altera.com/akdlm/software/acdsinst/14.1/186/ib_installers/max10-14.1.0.186.qdz'
 }
 
+quartus_url_140web = {
+        'setup' : 'https://download.altera.com/akdlm/software/acdsinst/14.0/200/ib_installers/QuartusSetupWeb-14.0.0.200-linux.run',
+        'modelsim' : 'https://download.altera.com/akdlm/software/acdsinst/14.0/200/ib_installers/ModelSimSetup-14.0.0.200-linux.run',
+        'a2' : 'https://download.altera.com/akdlm/software/acdsinst/14.0/200/ib_installers/arria-14.0.0.200.qdz',
+        'c4' : 'https://download.altera.com/akdlm/software/acdsinst/14.0/200/ib_installers/cyclone-14.0.0.200.qdz',
+        'c5' : 'https://download.altera.com/akdlm/software/acdsinst/14.0/200/ib_installers/cyclonev-14.0.0.200.qdz',
+        'm2' : 'https://download.altera.com/akdlm/software/acdsinst/14.0/200/ib_installers/max-14.0.0.200.qdz',
+}
+
+
 quartus_versions = {
+    '14.0web' : quartus_url_140web,
     '14.1web' : quartus_url_141web,
     '15.0web' : quartus_url_150web,
     '15.1std' : quartus_url_151std,
