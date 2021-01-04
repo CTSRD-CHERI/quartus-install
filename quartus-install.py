@@ -353,8 +353,18 @@ quartus_url_131web = {
         'm2' : 'https://download.altera.com/akdlm/software/acdsinst/13.1/162/ib_installers/max-13.1.0.162.qdz',
 }
 
+quartus_url_130sp1web = {
+        'setup' : 'https://download.altera.com/akdlm/software/acdsinst/13.0sp1/232/ib_installers/QuartusSetupWeb-13.0.1.232.run',
+        'modelsim' : 'https://download.altera.com/akdlm/software/acdsinst/13.0sp1/232/ib_installers/ModelSimSetup-13.0.1.232.run',
+        'a2' : 'https://download.altera.com/akdlm/software/acdsinst/13.0sp1/232/ib_installers/arria-13.0.1.232.qdz',
+        'c4' : 'https://download.altera.com/akdlm/software/acdsinst/13.0sp1/232/ib_installers/cyclone-13.0.1.232.qdz',
+        'c5' : 'https://download.altera.com/akdlm/software/acdsinst/13.0sp1/232/ib_installers/cyclonev-13.0.1.232.qdz',
+        'm2' : 'https://download.altera.com/akdlm/software/acdsinst/13.0sp1/232/ib_installers/max-13.0.1.232.qdz',
+}
+
 
 quartus_versions = {
+    '13.0sp1web' : quartus_url_130sp1web,
     '13.1web' : quartus_url_131web,
     '14.0web' : quartus_url_140web,
     '14.1web' : quartus_url_141web,
