@@ -12,7 +12,8 @@ usage: quartus-install.py [-h] [--download-only] [--install-only] [--prune]
 Download and install Quartus.
 
 positional arguments:
-  version          Quartus version, eg 18.0pro, 17.1lite, 16.1std
+  version          Quartus version, eg 18.0pro, 17.1lite, 16.1std.
+                   Supplying an invalid version will return the supported versions.
   target           Directory to install Quartus in
   device           Device to download/install in Quartus.  Supported:
                            a2    Arria II
