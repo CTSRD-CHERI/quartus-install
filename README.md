@@ -39,9 +39,11 @@ optional arguments:
   --download-only  Only download, don't install
   --install-only   Only install, don't download
   --prune          Delete install files when finished
-  --nosetup             Don't download Quartus setup frontend
+  --nosetup        Don't download Quartus setup frontend
   --parallel PARALLEL, -j PARALLEL
-                        Number of parallel download connections
+                   Number of parallel download connections
+  --fix-libpng     Build and add libpng12.so binary to Quartus library dir
+                   (needed for recent Ubuntu among others)
 ```
 
 Example usage:
