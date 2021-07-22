@@ -273,12 +273,16 @@ quartus_url_161std = {
     'a10_part3' : "https://download.altera.com/akdlm/software/acdsinst/16.1/196/ib_installers/arria10_part3-16.1.0.196.qdz",
     'a5' : "https://download.altera.com/akdlm/software/acdsinst/16.1/196/ib_installers/arriav-16.1.0.196.qdz",
     'c4' : "https://download.altera.com/akdlm/software/acdsinst/16.1/196/ib_installers/cyclone-16.1.0.196.qdz",
+    'c5' : "https://download.altera.com/akdlm/software/acdsinst/16.1/196/ib_installers/cyclonev-16.1.0.196.qdz",
     'm2' : "https://download.altera.com/akdlm/software/acdsinst/16.1/196/ib_installers/max-16.1.0.196.qdz",
     'm10' : "https://download.altera.com/akdlm/software/acdsinst/16.1/196/ib_installers/max10-16.1.0.196.qdz",
     's4' : "https://download.altera.com/akdlm/software/acdsinst/16.1/196/ib_installers/stratixiv-16.1.0.196.qdz",
     's5' : "https://download.altera.com/akdlm/software/acdsinst/16.1/196/ib_installers/stratixv-16.1.0.196.qdz"
     
 }
+
+quartus_url_161lite = dict(quartus_url_161std)
+quartus_url_161lite['setup'] = "https://download.altera.com/akdlm/software/acdsinst/16.1/196/ib_installers/QuartusLiteSetup-16.1.0.196-linux.run"
 
 quartus_url_171lite = dict(quartus_url_171std)
 quartus_url_171lite['setup'] = "https://download.altera.com/akdlm/software/acdsinst/17.1std/590/ib_installers/QuartusLiteSetup-17.1.0.590-linux.run"
@@ -372,6 +376,7 @@ quartus_versions = {
     '15.1std' : quartus_url_151std,
     '16.0std' : quartus_url_160std,
     '16.1std' : quartus_url_161std,
+    '16.1lite' : quartus_url_161lite,
     '17.0pro' : quartus_url_170pro,
     '17.0std' : quartus_url_170std,
     '17.1pro' : quartus_url_171pro,
