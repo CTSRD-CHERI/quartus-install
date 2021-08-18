@@ -44,6 +44,7 @@ optional arguments:
                    Number of parallel download connections
   --fix-libpng     Build and add libpng12.so binary to Quartus library dir
                    (needed for recent Ubuntu among others)
+  --check-urls     Check whether the URLs in the database are fetchable
 ```
 
 Example usage:
