@@ -58,32 +58,41 @@ def generate_pro_url(quartus_version, minor_version, revision):
     full_version = "%s.%s.%s" % (quartus_version, minor_version, revision)
     version_url = "%s/%s/%s/ib_installers" % (base_url, quartus_version, revision)
     pro_urls = {}
-    if quartus_version >= '19.3':
-        pro_urls.update( { "setup" : "%s/QuartusProSetup-%s-linux.run" % (version_url, full_version) } )
-        pro_urls.update( { "setup_part2" : "%s/QuartusProSetup-part2-%s-linux.run" % (version_url, full_version) } )
-    else:
-        pro_urls.update( { "setup" : "%s/QuartusProSetup-%s-linux.run" % (version_url, full_version) } )
+    pro_urls.update( { "setup" : "%s/QuartusProSetup-%s-linux.run" % (version_url, full_version) } )
+    pro_urls.update( { "setupwindows" : "%s/QuartusProSetup-%s-windows.exe" % (version_url, full_version) } )
+    pro_urls.update( { "modelsim_part1" : "%s/ModelSimProSetup-%s-linux.run" % (version_url, full_version) } )
+#    pro_urls.update( { "modelsimwindows_part1" : "%s/ModelSimProSetup-%s-windows.exe" % (version_url, full_version) } )
+#    pro_urls.update( { "modelsimwindows_part2" : "%s/modelsim_part2-%s-windows.qdz" % (version_url, full_version) } )
 
     if quartus_version >= '19.2':
         pro_urls.update( { "modelsim_part1" : "%s/ModelSimProSetup-%s-linux.run" % (version_url, full_version) } )
         pro_urls.update( { "modelsim_part2" : "%s/ModelSimProSetup-part2-%s-linux.run" % (version_url, full_version) } )
-    else:
-        pro_urls.update( { "modelsim_part1" : "%s/ModelSimProSetup-%s-linux.run" % (version_url, full_version) } )
-
+        pro_urls.update( { "modelsimwindows_part1" : "%s/ModelSimProSetup-%s-windows.exe" % (version_url, full_version) } )
+        pro_urls.update( { "modelsimwindows_part2" : "%s/ModelSimProSetup-part2-%s-windows.exe" % (version_url, full_version) } )
     if quartus_version == '19.2':
         pro_urls.update( { "modelsim_part2" : "%s/modelsim-part2-%s-linux.qdz" % (version_url, full_version) } )
-
+        pro_urls.update( { "modelsimwindows_part2" : "%s/modelsim-part2-%s-windows.qdz" % (version_url, full_version) } )
+    if quartus_version >= '19.3':
+        pro_urls.update( { "setup" : "%s/QuartusProSetup-%s-linux.run" % (version_url, full_version) } )
+        pro_urls.update( { "setup_part2" : "%s/QuartusProSetup-part2-%s-linux.run" % (version_url, full_version) } )
+        pro_urls.update( { "setupwindows" : "%s/QuartusProSetup-%s-windows.exe" % (version_url, full_version) } )
+        pro_urls.update( { "setupwindows_part2" : "%s/QuartusProSetup-part2-%s-windows.exe" % (version_url, full_version) } )
     if quartus_version >= '20.1':
         pro_urls.update( { "agilex" : "%s/agilex-%s.qdz" % (version_url, full_version) } )
     if quartus_version >= '20.3':
         pro_urls.update( { "diamondmesa" : "%s/diamondmesa-%s.qdz" % (version_url, full_version) } )
         pro_urls.update( { "setup_part2" : "%s/quartus_part2-%s.qdz" % (version_url, full_version) } )
+        pro_urls.update( { "setupwindows_part2" : "%s/quartus_part2-%s.qdz" % (version_url, full_version) } )
     if quartus_version >= '20.4':
         pro_urls.update( { "setup_part2" : "%s/quartus_part2-%s-linux.qdz" % (version_url, full_version) } )
+        pro_urls.update( { "setupwindows_part2" : "%s/quartus_part2-%s-windows.qdz" % (version_url, full_version) } )
     if quartus_version >= '21.1':
         pro_urls.update( { "modelsim_part2" : "%s/modelsim_part2-%s-linux.qdz" % (version_url, full_version) } )
         pro_urls.update( { "questa_part1" : "%s/QuestaSetup-%s-linux.run" % (version_url, full_version) } )
         pro_urls.update( { "questa_part2" : "%s/questa_part2-%s-linux.qdz" % (version_url, full_version) } )
+        pro_urls.update( { "modelsimwindows_part2" : "%s/modelsim_part2-%s-windows.qdz" % (version_url, full_version) } )
+        pro_urls.update( { "questawindows_part1" : "%s/QuestaSetup-%s-windows.exe" % (version_url, full_version) } )
+        pro_urls.update( { "questawindows_part2" : "%s/questa_part2-%s-windows.qdz" % (version_url, full_version) } )
     pro_urls.update( { "a10" : "%s/arria10-%s.qdz" % (version_url, full_version) } )
     pro_urls.update( { "c10gx" : "%s/cyclone10gx-%s.qdz" % (version_url, full_version) } )
     pro_urls.update( { "s10" : "%s/stratix10-%s.qdz" % (version_url, full_version) } )
