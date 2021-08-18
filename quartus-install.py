@@ -68,7 +68,7 @@ def generate_pro_url(quartus_version, minor_version, revision):
         pro_urls.update( { "modelsim_part1" : "%s/ModelSimProSetup-%s-linux.run" % (version_url, full_version) } )
         pro_urls.update( { "modelsim_part2" : "%s/ModelSimProSetup-part2-%s-linux.run" % (version_url, full_version) } )
     else:
-        pro_urls.update( { "modelsim_" : "%s/ModelSimProSetup-%s-linux.run" % (version_url, full_version) } )
+        pro_urls.update( { "modelsim_part1" : "%s/ModelSimProSetup-%s-linux.run" % (version_url, full_version) } )
 
     if quartus_version == '19.2':
         pro_urls.update( { "modelsim_part2" : "%s/modelsim-part2-%s-linux.qdz" % (version_url, full_version) } )
@@ -78,6 +78,12 @@ def generate_pro_url(quartus_version, minor_version, revision):
     if quartus_version >= '20.3':
         pro_urls.update( { "diamondmesa" : "%s/diamondmesa-%s.qdz" % (version_url, full_version) } )
         pro_urls.update( { "setup_part2" : "%s/quartus_part2-%s.qdz" % (version_url, full_version) } )
+    if quartus_version >= '20.4':
+        pro_urls.update( { "setup_part2" : "%s/quartus_part2-%s-linux.qdz" % (version_url, full_version) } )
+    if quartus_version >= '21.1':
+        pro_urls.update( { "modelsim_part2" : "%s/modelsim_part2-%s-linux.qdz" % (version_url, full_version) } )
+        pro_urls.update( { "questa_part1" : "%s/QuestaSetup-%s-linux.run" % (version_url, full_version) } )
+        pro_urls.update( { "questa_part2" : "%s/questa_part2-%s-linux.qdz" % (version_url, full_version) } )
     pro_urls.update( { "a10" : "%s/arria10-%s.qdz" % (version_url, full_version) } )
     pro_urls.update( { "c10gx" : "%s/cyclone10gx-%s.qdz" % (version_url, full_version) } )
     pro_urls.update( { "s10" : "%s/stratix10-%s.qdz" % (version_url, full_version) } )
@@ -100,6 +106,9 @@ def generate_std_url(quartus_version, minor_version, revision, edition):
     return urls
 
 # generate some URLs based on the regular pattern
+quartus_url_212pro = generate_pro_url('21.2', '0', '72')
+quartus_url_211pro = generate_pro_url('21.1', '0', '169')
+quartus_url_204pro = generate_pro_url('20.4', '0', '72')
 quartus_url_203pro = generate_pro_url('20.3', '0', '158')
 quartus_url_202pro = generate_pro_url('20.2', '0', '50')
 quartus_url_201pro = generate_pro_url('20.1', '0', '177')
@@ -400,7 +409,10 @@ quartus_versions = {
     '20.1.1lite' : quartus_url_2011lite,
     '20.1pro' : quartus_url_201pro,
     '20.2pro' : quartus_url_202pro,
-    '20.3pro' : quartus_url_203pro
+    '20.3pro' : quartus_url_203pro,
+    '20.4pro' : quartus_url_204pro,
+    '21.1pro' : quartus_url_211pro,
+    '21.2pro' : quartus_url_212pro
 }
 
 
@@ -534,9 +546,9 @@ parts = []
 if args.check_urls:
     passed = check_urls(quartus_versions)
     if not passed:
-        print("Some URLs could not be reached")
+        print("\rSome URLs could not be reached")
     else:
-        print("All URLs reached successfully")
+        print("\rAll URLs reached successfully")
     sys.exit(0 if passed else 1)
 
 if not cmd_exists('aria2c'):
