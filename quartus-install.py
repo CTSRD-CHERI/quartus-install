@@ -61,8 +61,6 @@ def generate_pro_url(quartus_version, minor_version, revision):
     pro_urls.update( { "setup" : "%s/QuartusProSetup-%s-linux.run" % (version_url, full_version) } )
     pro_urls.update( { "setupwindows" : "%s/QuartusProSetup-%s-windows.exe" % (version_url, full_version) } )
     pro_urls.update( { "modelsim_part1" : "%s/ModelSimProSetup-%s-linux.run" % (version_url, full_version) } )
-#    pro_urls.update( { "modelsimwindows_part1" : "%s/ModelSimProSetup-%s-windows.exe" % (version_url, full_version) } )
-#    pro_urls.update( { "modelsimwindows_part2" : "%s/modelsim_part2-%s-windows.qdz" % (version_url, full_version) } )
 
     if quartus_version >= '19.2':
         pro_urls.update( { "modelsim_part1" : "%s/ModelSimProSetup-%s-linux.run" % (version_url, full_version) } )
