@@ -11,7 +11,7 @@ usage: quartus-install.py [-h] [--download-only] [--install-only] [--prune]
 
 Download and install Quartus.
 
-positional arguments:
+positional arguments (required):
   version          Quartus version, eg 18.0pro, 17.1lite, 16.1std.
                    Supplying an invalid version will return the supported versions.
   target           Directory to install Quartus in
@@ -36,6 +36,8 @@ positional arguments:
 
 optional arguments:
   -h, --help       show this help message and exit
+  --list-versions  Print the Quartus versions supported
+  --list-parts     Print the devices and other pieces we can download
   --download-only  Only download, don't install
   --install-only   Only install, don't download
   --prune          Delete install files when finished
