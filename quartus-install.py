@@ -532,8 +532,29 @@ def check_urls(quartus_versions):
     return success
 
 
+def list_versions(quartus_versions):
+    """Print a list of supported Quartus versions"""
+    for key in quartus_versions.keys():
+        print(key)
+
+def list_parts(quartus_versions, version):
+    for key in quartus_versions[version]:
+        print(key)
+
+def list_devices(quartus_versions, version):
+    v = quartus_versions[version]
+    keys = v.keys()
+    for key in keys:
+        if not 'setup' in key and not 'modelsim' in key and not 'questa' in key:
+            if "_" in key:
+                print(key.split("_")[0])
+            else:
+                print(key)
+
 
 parser = argparse.ArgumentParser(description='Download and install Quartus.')
+parser.add_argument('--list-versions', action='store_true', help="Print supported versions")
+parser.add_argument('--list-parts', action='store_true', help="Print supported devices (and other parts) for download")
 parser.add_argument('--download-only', action='store_true', help='Only download, don\'t install')
 parser.add_argument('--install-only', action='store_true', help='Only install, don\'t download')
 parser.add_argument('--prune', action='store_true', help='Delete install files when finished')
@@ -558,16 +579,23 @@ if args.check_urls:
         print("\rAll URLs reached successfully")
     sys.exit(0 if passed else 1)
 
-if not cmd_exists('aria2c'):
-    print("Please install the 'aria2' tool (command line executable 'aria2c')")
-    sys.exit(2)
+if args.list_versions:
+    list_versions(quartus_versions)
+    sys.exit(0)
 
 if version not in quartus_versions.keys():
     print("Unrecognised Quartus version '%s'" % version)
     print("Supported versions are:")
-    for key in quartus_versions.keys():
-        print(key)
+    list_versions(quartus_versions)
     sys.exit(1)
+
+if args.list_parts:
+    list_parts(quartus_versions, version)
+    sys.exit(0)
+
+if not cmd_exists('aria2c'):
+    print("Please install the 'aria2' tool (command line executable 'aria2c')")
+    sys.exit(2)
 
 if not args.nosetup:
     parts = parts + ['setup']
