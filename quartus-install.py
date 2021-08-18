@@ -410,6 +410,7 @@ import sys
 import argparse
 import tempfile
 import stat
+import urllib.request
 
 def match_wanted_parts(version, devices):
     # work out what devices we have available
@@ -483,6 +484,35 @@ def cmd_exists(cmd):
         stdout=subprocess.PIPE, stderr=subprocess.PIPE) == 0
 
 
+def test_url(quartus, part, url):
+    """Check a URL and return True if it can be reached"""
+    print("\rChecking %s/%s         " % (quartus, part), end='')
+    try:
+        response = urllib.request.urlopen(url)
+        headers = response.getheaders()
+        return True
+    except KeyboardInterrupt:
+        sys.exit(1)
+    except:
+        return False
+
+
+
+def check_urls(quartus_versions):
+    """Iterate through our URL database and report unreachable URLs"""
+    success = True
+    for quartus in quartus_versions.keys():
+        parts = quartus_versions[quartus]
+        parts_str = [str(k) for k in parts.keys()]
+        #print("Checking Quartus %s, available parts (%s)\n" % (quartus, ",".join(parts_str)))
+        for part in parts:
+            result = test_url(quartus, part, parts[part])
+            if not result:
+                print("\nMissing %s/%s url=%s" % (quartus, part, parts[part]))
+                success = False
+    return success
+
+
 
 parser = argparse.ArgumentParser(description='Download and install Quartus.')
 parser.add_argument('--download-only', action='store_true', help='Only download, don\'t install')
@@ -491,6 +521,7 @@ parser.add_argument('--prune', action='store_true', help='Delete install files w
 parser.add_argument('--nosetup', action='store_true', help="Don't download Quartus setup frontend")
 parser.add_argument('--parallel', '-j', action='store', help="Number of parallel download connections")
 parser.add_argument('--fix-libpng', action='store_true', help="Build and add libpng12.so binary")
+parser.add_argument('--check-urls', action='store_true', help="Report any download URLs that are unreachable")
 parser.add_argument('version', help='Quartus version, eg 18.0pro, 17.1lite, 16.1std')
 parser.add_argument('target', help='Directory to install Quartus in')
 parser.add_argument('device', nargs='+', help='Device to download/install in Quartus, eg s5 (Stratix 5), a10 (Arria 10), m2 (MAX II), c10gx (Cyclone 10GX)')
@@ -499,6 +530,14 @@ args = parser.parse_args(sys.argv[1:])
 version = args.version
 target = args.target
 parts = []
+
+if args.check_urls:
+    passed = check_urls(quartus_versions)
+    if not passed:
+        print("Some URLs could not be reached")
+    else:
+        print("All URLs reached successfully")
+    sys.exit(0 if passed else 1)
 
 if not cmd_exists('aria2c'):
     print("Please install the 'aria2' tool (command line executable 'aria2c')")
