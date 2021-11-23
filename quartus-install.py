@@ -113,6 +113,7 @@ def generate_std_url(quartus_version, minor_version, revision, edition):
     return urls
 
 # generate some URLs based on the regular pattern
+quartus_url_213pro = generate_pro_url('21.3', '0', '170')
 quartus_url_212pro = generate_pro_url('21.2', '0', '72')
 quartus_url_211pro = generate_pro_url('21.1', '0', '169')
 quartus_url_204pro = generate_pro_url('20.4', '0', '72')
@@ -419,7 +420,8 @@ quartus_versions = {
     '20.3pro' : quartus_url_203pro,
     '20.4pro' : quartus_url_204pro,
     '21.1pro' : quartus_url_211pro,
-    '21.2pro' : quartus_url_212pro
+    '21.2pro' : quartus_url_212pro,
+    '21.3pro' : quartus_url_213pro
 }
 
 
