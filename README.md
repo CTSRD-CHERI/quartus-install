@@ -54,7 +54,8 @@ Example usage:
 quartus-install.py 18.1std /opt/intelFPGA/18.1std a10 s4 s5 c4 c5 m10
 ```
 
-You will also need the ['aria2'](https://aria2.github.io/) tool installed to
+You will also need the ['aria2'](https://aria2.github.io/) tool installed
+(available as a Ubuntu package) to
 perform parallel downloads (since the Akamai servers have limited per-file
 bandwidth, it is most efficient to download all the pieces in parallel if
 you are on a high-bandwidth link).
