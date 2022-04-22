@@ -460,13 +460,20 @@ def match_wanted_parts(version, devices):
     return wanted_parts
 
 
-def download_quartus(version, parts, args):
+def collect_urls(version, parts):
     # convert the pieces we need to a list of URLs
     urls = {x: quartus_versions[version][x] for x in parts}.values()
+    return urls
+
+
+def download_quartus(version, parts, args):
+    urls = collect_urls(version, parts)
+
     (handle, urllistfile) = tempfile.mkstemp()
     with open(urllistfile, 'w') as urlfile:
         for url in urls:
             urlfile.write("%s\n" % url)
+
     if args.parallel != None:
         parallel = '-x'+args.parallel
     else:
@@ -570,6 +577,7 @@ parser.add_argument('--list-versions', action='store_true', help="Print supporte
 parser.add_argument('--list-parts', action='store_true', help="Print supported devices (and other parts) for download")
 parser.add_argument('--download-only', action='store_true', help='Only download, don\'t install')
 parser.add_argument('--install-only', action='store_true', help='Only install, don\'t download')
+parser.add_argument('--print-urls', action='store_true', help="Just print URLs that would be downloaded")
 parser.add_argument('--prune', action='store_true', help='Delete install files when finished')
 parser.add_argument('--nosetup', action='store_true', help="Don't download Quartus setup frontend")
 parser.add_argument('--parallel', '-j', action='store', help="Number of parallel download connections")
@@ -613,6 +621,13 @@ if not cmd_exists('aria2c'):
 if not args.nosetup:
     parts = parts + ['setup']
 parts = parts + match_wanted_parts(version, args.device)
+
+if args.print_urls:
+    urls = collect_urls(version, parts)
+    for url in urls:
+        print(url)
+    sys.exit(0)
+
 if not args.install_only:
     print("Downloading Quartus %s parts %s\n" % (version, parts))
     rc, urls = download_quartus(version, parts, args)
