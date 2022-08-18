@@ -443,6 +443,7 @@ import argparse
 import tempfile
 import stat
 import urllib.request
+import platform
 
 def match_wanted_parts(version, devices):
     # work out what devices we have available
@@ -571,6 +572,23 @@ def list_devices(quartus_versions, version):
             else:
                 print(key)
 
+def foreign_pre(target):
+    mach = platform.machine()
+    if mach == 'x86_64':
+        print("Warning: Quartus will run natively here, not modifying the system")
+        return
+    scriptdir = os.path.dirname(os.path.abspath(__file__))
+    os.system(scriptdir+"/foreign/foreign-pre.sh "+target)
+
+
+def foreign_post(target):
+    mach = platform.machine()
+    if mach == 'x86_64':
+        return
+    scriptdir = os.path.dirname(os.path.abspath(__file__))
+    os.system(scriptdir+"/foreign/foreign-post.sh "+target+"/quartus")
+
+
 
 # main body
 
@@ -584,6 +602,7 @@ parser.add_argument('--prune', action='store_true', help='Delete install files w
 parser.add_argument('--nosetup', action='store_true', help="Don't download Quartus setup frontend")
 parser.add_argument('--parallel', '-j', action='store', help="Number of parallel download connections")
 parser.add_argument('--fix-libpng', action='store_true', help="Build and add libpng12.so binary")
+parser.add_argument('--foreign', action='store_true', help="Patch non-x86 system to run x86 Quartus via QEMU - very experimental, requires root")
 parser.add_argument('--check-urls', action='store_true', help="Report any download URLs that are unreachable")
 parser.add_argument('version', help='Quartus version, eg 18.0pro, 17.1lite, 16.1std')
 parser.add_argument('target', help='Directory to install Quartus in')
@@ -620,6 +639,10 @@ if not cmd_exists('aria2c'):
     print("Please install the 'aria2' tool (command line executable 'aria2c')")
     sys.exit(2)
 
+if args.foreign:
+    print("Running pre-installation script to configure for cross-arch qemu-user")
+    foreign_pre(target)
+
 if not args.nosetup:
     parts = parts + ['setup']
 parts = parts + match_wanted_parts(version, args.device)
@@ -654,6 +677,12 @@ if args.prune and not args.install_only:
         leafname = url[url.rfind("/")+1:]
         if os.path.exists(leafname):
             os.remove(leafname)
+
+if args.foreign:
+    print("Running post-installation script to configure for cross-arch qemu-user")
+    foreign_post(target)
+
+
 
 if args.fix_libpng:
     scriptdir = os.path.dirname(os.path.abspath(__file__))
