@@ -52,10 +52,9 @@ fpga_key = {
     's5' : 'stratixv'
     }
 
-
 def generate_pro_url(quartus_version, minor_version, revision):
-    base_url = "https://download.altera.com/akdlm/software/acdsinst/"
-    full_version = "%s.%s.%s" % (quartus_version, minor_version, revision)
+    base_url = "https://download.altera.com/akdlm/software/acdsinst"
+    full_version = "%s.%s.%s" % (quartus_version, minor_version, revision.split('.')[0])
     version_url = "%s/%s/%s/ib_installers" % (base_url, quartus_version, revision)
     pro_urls = {}
     pro_urls.update( { "setup" : "%s/QuartusProSetup-%s-linux.run" % (version_url, full_version) } )
@@ -99,13 +98,20 @@ def generate_pro_url(quartus_version, minor_version, revision):
     if quartus_version >= '22.4':
         pro_urls.update( { "easicn5x" : "%s/easicn5x-%s.qdz" % (version_url, full_version) } )
         pro_urls.pop("diamondmesa", None)
+    if quartus_version >= '23.2':
+        pro_urls.update( { "setup_part2" : "%s/QuartusProSetup-part2-%s-linux.qdz" % (version_url, full_version) } )
+        pro_urls.update( { "questa_part2" : "%s/QuestaSetup-part2-%s-linux.qdz" % (version_url, full_version) } )
+        pro_urls.update( { "setupwindows_part2" : "%s/QuartusProSetup-part2-%s-windows.qdz" % (version_url, full_version) } )
+        pro_urls.update( { "questawindows_part2" : "%s/QuestaSetup-part2-%s-windows.qdz" % (version_url, full_version) } )
+        pro_urls.pop("agilex", None)
+        pro_urls.update( { "agilex7" : "%s/agilex7-%s.qdz" % (version_url, full_version) } )
     pro_urls.update( { "a10" : "%s/arria10-%s.qdz" % (version_url, full_version) } )
     pro_urls.update( { "c10gx" : "%s/cyclone10gx-%s.qdz" % (version_url, full_version) } )
     pro_urls.update( { "s10" : "%s/stratix10-%s.qdz" % (version_url, full_version) } )
     return pro_urls
 
 def generate_std_url(quartus_version, minor_version, revision, edition):
-    base_url="https://download.altera.com/akdlm/software/acdsinst/"
+    base_url="https://download.altera.com/akdlm/software/acdsinst"
     version_url = "%s/%s%s/%s/ib_installers" % (base_url, quartus_version, edition, revision)
     full_version = "%s.%s.%s" % (quartus_version, minor_version, revision)
     urls = {}
@@ -121,6 +127,7 @@ def generate_std_url(quartus_version, minor_version, revision, edition):
     return urls
 
 # generate some URLs based on the regular pattern
+quartus_url_232pro = generate_pro_url('23.2', '0', '94.2')
 quartus_url_224pro = generate_pro_url('22.4', '0', '94')
 quartus_url_222pro = generate_pro_url('22.2', '0', '94')
 quartus_url_221pro = generate_pro_url('22.1', '0', '174')
@@ -437,7 +444,8 @@ quartus_versions = {
     '21.4pro' : quartus_url_214pro,
     '22.1pro' : quartus_url_221pro,
     '22.2pro' : quartus_url_222pro,
-    '22.4pro' : quartus_url_224pro
+    '22.4pro' : quartus_url_224pro,
+    '23.2pro' : quartus_url_232pro
 }
 
 
