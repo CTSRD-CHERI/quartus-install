@@ -98,13 +98,16 @@ def generate_pro_url(quartus_version, minor_version, revision):
     if quartus_version >= '22.4':
         pro_urls.update( { "easicn5x" : "%s/easicn5x-%s.qdz" % (version_url, full_version) } )
         pro_urls.pop("diamondmesa", None)
-    if quartus_version >= '23.2':
+    if quartus_version >= '23.1':
         pro_urls.update( { "setup_part2" : "%s/QuartusProSetup-part2-%s-linux.qdz" % (version_url, full_version) } )
         pro_urls.update( { "questa_part2" : "%s/QuestaSetup-part2-%s-linux.qdz" % (version_url, full_version) } )
         pro_urls.update( { "setupwindows_part2" : "%s/QuartusProSetup-part2-%s-windows.qdz" % (version_url, full_version) } )
         pro_urls.update( { "questawindows_part2" : "%s/QuestaSetup-part2-%s-windows.qdz" % (version_url, full_version) } )
         pro_urls.pop("agilex", None)
         pro_urls.update( { "agilex7" : "%s/agilex7-%s.qdz" % (version_url, full_version) } )
+    if quartus_version >= '23.3':
+        pro_urls.pop("questa_part2", None)
+        pro_urls.pop("questawindows_part2", None)
     pro_urls.update( { "a10" : "%s/arria10-%s.qdz" % (version_url, full_version) } )
     pro_urls.update( { "c10gx" : "%s/cyclone10gx-%s.qdz" % (version_url, full_version) } )
     pro_urls.update( { "s10" : "%s/stratix10-%s.qdz" % (version_url, full_version) } )
@@ -127,8 +130,12 @@ def generate_std_url(quartus_version, minor_version, revision, edition):
     return urls
 
 # generate some URLs based on the regular pattern
+quartus_url_234pro = generate_pro_url('23.4', '0', '79')
+quartus_url_233pro = generate_pro_url('23.3', '0', '104')
 quartus_url_232pro = generate_pro_url('23.2', '0', '94.2')
+quartus_url_231pro = generate_pro_url('23.1', '0', '115')
 quartus_url_224pro = generate_pro_url('22.4', '0', '94')
+quartus_url_223pro = generate_pro_url('22.3', '0', '104')
 quartus_url_222pro = generate_pro_url('22.2', '0', '94')
 quartus_url_221pro = generate_pro_url('22.1', '0', '174')
 quartus_url_214pro = generate_pro_url('21.4', '0', '67')
@@ -444,8 +451,12 @@ quartus_versions = {
     '21.4pro' : quartus_url_214pro,
     '22.1pro' : quartus_url_221pro,
     '22.2pro' : quartus_url_222pro,
+    '22.3pro' : quartus_url_223pro,
     '22.4pro' : quartus_url_224pro,
-    '23.2pro' : quartus_url_232pro
+    '23.1pro' : quartus_url_231pro,
+    '23.2pro' : quartus_url_232pro,
+    '23.3pro' : quartus_url_233pro,
+    '23.4pro' : quartus_url_234pro
 }
 
 
