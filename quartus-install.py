@@ -548,9 +548,12 @@ def cmd_exists(cmd):
         stdout=subprocess.PIPE, stderr=subprocess.PIPE) == 0
 
 
-def test_url(quartus, part, url):
+def test_url(quartus, part, url, print_url):
     """Check a URL and return True if it can be reached"""
-    print("\rChecking %s/%s         " % (quartus, part), end='')
+    if print_url:
+        print(url)
+    else:
+        print("\rChecking %s/%s         " % (quartus, part), end='')
     try:
         response = urllib.request.urlopen(url)
         headers = response.getheaders()
@@ -562,7 +565,7 @@ def test_url(quartus, part, url):
 
 
 
-def check_urls(quartus_versions):
+def check_urls(quartus_versions, print_urls):
     """Iterate through our URL database and report unreachable URLs"""
     success = True
     for quartus in quartus_versions.keys():
@@ -570,7 +573,7 @@ def check_urls(quartus_versions):
         parts_str = [str(k) for k in parts.keys()]
         #print("Checking Quartus %s, available parts (%s)\n" % (quartus, ",".join(parts_str)))
         for part in parts:
-            result = test_url(quartus, part, parts[part])
+            result = test_url(quartus, part, parts[part], print_urls)
             if not result:
                 print("\nMissing %s/%s url=%s" % (quartus, part, parts[part]))
                 success = False
@@ -638,7 +641,7 @@ target = args.target
 parts = []
 
 if args.check_urls:
-    passed = check_urls(quartus_versions)
+    passed = check_urls(quartus_versions, args.print_urls)
     if not passed:
         print("\rSome URLs could not be reached")
     else:
