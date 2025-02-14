@@ -628,6 +628,7 @@ parser.add_argument('--prune', action='store_true', help='Delete install files w
 parser.add_argument('--nosetup', action='store_true', help="Don't download Quartus setup frontend")
 parser.add_argument('--parallel', '-j', action='store', help="Number of parallel download connections")
 parser.add_argument('--fix-libpng', action='store_true', help="Build and add libpng12.so binary")
+parser.add_argument('--fix-libncurses', action='store_true', help="Build and add libncurses5.so binary")
 parser.add_argument('--foreign', action='store_true', help="Patch non-x86 system to run x86 Quartus via QEMU - very experimental, requires root")
 parser.add_argument('--check-urls', action='store_true', help="Report any download URLs that are unreachable")
 parser.add_argument('version', help='Quartus version, eg 18.0pro, 17.1lite, 16.1std')
@@ -713,4 +714,8 @@ if args.foreign:
 if args.fix_libpng:
     scriptdir = os.path.dirname(os.path.abspath(__file__))
     os.system(scriptdir+"/install-libpng.sh "+target+"/quartus/linux64")
+
+if args.fix_libncurses:
+    scriptdir = os.path.dirname(os.path.abspath(__file__))
+    os.system(scriptdir+"/install-libncurses.sh "+target+"/quartus/linux64")
 
